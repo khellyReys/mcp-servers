@@ -4,6 +4,8 @@ Welcome to your generated MCP server! 🚀 This project was created with the [Po
 
 - ✅ An MCP-compatible server (`mcpServer.js`)
 - ✅ Automatically generated JavaScript tools for each selected Postman API request
+- ✅ Web-based frontend interface with SSE and HTTP streaming support
+- ✅ Multiple connection modes: STDIO, SSE, and HTTP
 
 Let's set things up!
 
@@ -46,6 +48,41 @@ const apiKey = process.env.ACME_API_KEY;
 
 **Caveat:** This may not be correct for every API. The generation logic is relatively simple - for each workspace, we create an environment variable with the same name as the workspace slug, and then use that environment variable in each tool file that belongs to that workspace. If this isn't the right behavior for your chosen API, no problem! You can manually update anything in the `.env` file or tool files to accurately reflect the API's method of authentication.
 
+## 🌐 Web Interface
+
+The server now includes a modern web-based interface that provides:
+
+- **Interactive Tool Execution**: Select and execute tools with a user-friendly interface
+- **Real-time Connection Status**: Monitor your connection to the MCP server
+- **Multiple Connection Types**: Choose between SSE (Server-Sent Events) and HTTP streaming
+- **Live Results Display**: View tool execution results in real-time
+- **Activity Logging**: Track all server activities and tool executions
+- **Export Functionality**: Export results for further analysis
+
+### Starting the Web Interface
+
+```sh
+# Start the web server (recommended)
+npm start
+
+# Or for development with auto-reload
+npm run dev
+```
+
+Then open your browser to `http://localhost:3001` to access the interface.
+
+### Available Server Modes
+
+```sh
+# Web interface with SSE and HTTP support (default)
+npm start
+
+# SSE-only server mode
+npm run server:sse
+
+# Traditional STDIO mode (for Claude Desktop)
+npm run server:stdio
+```
 ## 🌐 Test the MCP Server with Postman
 
 The MCP Server (`mcpServer.js`) exposes your automated API tools to MCP-compatible clients, such as Claude Desktop or the Postman Desktop Application. We recommend that you test the server with Postman first and then move on to using it with an LLM.
@@ -150,6 +187,11 @@ To run the server with Server-Sent Events (SSE) support, use the `--sse` flag:
 node mcpServer.js --sse
 ```
 
+Or use the web interface which includes both SSE and HTTP streaming support:
+
+```sh
+npm start
+```
 ## 🛠️ Additional CLI commands
 
 #### List tools
@@ -175,6 +217,33 @@ Workspace: acme-workspace
         [...additional parameters...]
 ```
 
+## 🔧 API Endpoints
+
+When running in web mode, the server exposes several endpoints:
+
+- `GET /` - Web interface
+- `GET /api/tools` - List available tools
+- `POST /api/call-tool` - Execute a tool via HTTP
+- `GET /sse` - Server-Sent Events endpoint
+- `POST /messages` - SSE message handler
+- `GET /health` - Health check endpoint
+
+## 🎯 Features
+
+### Web Interface Features
+- **Modern UI**: Clean, responsive design with Facebook branding
+- **Real-time Updates**: Live connection status and activity logging
+- **Tool Management**: Browse and execute tools with parameter validation
+- **Result Export**: Export execution results as JSON
+- **Multiple Protocols**: Support for both SSE and HTTP streaming
+- **Error Handling**: Comprehensive error reporting and user feedback
+
+### Server Features
+- **Multi-mode Operation**: STDIO, SSE, and HTTP support
+- **Session Management**: Handle multiple concurrent connections
+- **Tool Discovery**: Automatic detection of available tools
+- **Health Monitoring**: Built-in health check endpoints
+- **CORS Support**: Cross-origin resource sharing for web clients
 ## ➕ Adding New Tools
 
 Extend your MCP server with more tools easily:

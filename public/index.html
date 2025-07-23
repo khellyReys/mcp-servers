@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Marketing API MCP Server</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fab fa-facebook-square"></i>
+                    <h1>Facebook Marketing API MCP Server</h1>
+                </div>
+                <div class="connection-status">
+                    <div class="status-indicator" id="connectionStatus">
+                        <i class="fas fa-circle"></i>
+                        <span>Disconnected</span>
+                    </div>
+                    <button class="btn btn-primary" id="connectBtn">Connect</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Available Tools</h3>
+                    <div class="tools-list" id="toolsList">
+                        <div class="loading">Loading tools...</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3>Connection Type</h3>
+                    <div class="connection-options">
+                        <label class="radio-option">
+                            <input type="radio" name="connectionType" value="sse" checked>
+                            <span>Server-Sent Events (SSE)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="connectionType" value="http">
+                            <span>HTTP Streaming</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Server Info</h3>
+                    <div class="server-info" id="serverInfo">
+                        <p><strong>Name:</strong> <span id="serverName">-</span></p>
+                        <p><strong>Version:</strong> <span id="serverVersion">-</span></p>
+                        <p><strong>Tools:</strong> <span id="toolCount">0</span></p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Tool Execution Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Tool Execution</h2>
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary" id="clearBtn">
+                                <i class="fas fa-trash"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-form" id="toolForm">
+                        <div class="form-group">
+                            <label for="toolSelect">Select Tool:</label>
+                            <select id="toolSelect" class="form-control">
+                                <option value="">Choose a tool...</option>
+                            </select>
+                        </div>
+                        
+                        <div class="parameters-section" id="parametersSection" style="display: none;">
+                            <h4>Parameters</h4>
+                            <div id="parametersContainer"></div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-execute" id="executeBtn" disabled>
+                            <i class="fas fa-play"></i> Execute Tool
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Results</h2>
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary" id="exportBtn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="results-container" id="resultsContainer">
+                        <div class="empty-state">
+                            <i class="fas fa-play-circle"></i>
+                            <p>Execute a tool to see results here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs Panel -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Activity Log</h2>
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary" id="clearLogsBtn">
+                                <i class="fas fa-broom"></i> Clear Logs
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="logs-container" id="logsContainer">
+                        <div class="log-entry">
+                            <span class="timestamp">[00:00:00]</span>
+                            <span class="log-level info">INFO</span>
+                            <span class="message">MCP Server interface initialized</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Executing tool...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
