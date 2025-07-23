@@ -63,6 +63,9 @@ class MCPServerInterface {
         document.getElementById('clearLogsBtn').addEventListener('click', () => this.clearLogs());
         document.getElementById('exportBtn').addEventListener('click', () => this.exportResults());
         
+        // Search functionality
+        document.getElementById('toolSearch').addEventListener('input', (e) => this.filterTools(e.target.value));
+        
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey || e.metaKey) {
@@ -116,6 +119,45 @@ class MCPServerInterface {
         // Populate tool select dropdown
         this.toolSelect.innerHTML = '<option value="">Choose a tool...</option>' +
             this.tools.map(tool => `<option value="${tool.name}">${tool.name}</option>`).join('');
+    }
+
+    filterTools(searchTerm) {
+        const toolItems = document.querySelectorAll('.tool-item');
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        
+        toolItems.forEach(item => {
+            const toolName = item.querySelector('.tool-name').textContent.toLowerCase();
+            const toolDescription = item.querySelector('.tool-description').textContent.toLowerCase();
+            
+            const matches = toolName.includes(lowerSearchTerm) || 
+                          toolDescription.includes(lowerSearchTerm);
+            
+            if (matches || searchTerm === '') {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+        
+        // Show "No results" message if no tools are visible
+        const visibleTools = document.querySelectorAll('.tool-item:not(.hidden)');
+        const existingNoResults = document.querySelector('.no-results-message');
+        
+        if (visibleTools.length === 0 && searchTerm !== '') {
+            if (!existingNoResults) {
+                const noResultsDiv = document.createElement('div');
+                noResultsDiv.className = 'no-results-message';
+                noResultsDiv.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>No tools found matching "${searchTerm}"</p>
+                    </div>
+                `;
+                this.toolsList.appendChild(noResultsDiv);
+            }
+        } else if (existingNoResults) {
+            existingNoResults.remove();
+        }
     }
 
     selectToolFromSidebar(toolName) {
