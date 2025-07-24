@@ -9,135 +9,275 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="app">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fab fa-facebook-square"></i>
-                    <h1>Facebook Marketing API MCP Server</h1>
-                </div>
-                <div class="connection-status">
-                    <div class="status-indicator" id="connectionStatus">
-                        <i class="fas fa-circle"></i>
-                        <span>Disconnected</span>
+    <div class="app" id="app">
+        <!-- Home Screen -->
+        <div class="home-screen" id="homeScreen">
+            <!-- Header -->
+            <header class="home-header">
+                <div class="home-header-content">
+                    <div class="logo">
+                        <i class="fab fa-facebook-square"></i>
+                        <h1>Facebook Marketing API MCP Server</h1>
                     </div>
-                    <button class="btn btn-primary" id="connectBtn">Connect</button>
+                    <div class="connection-status">
+                        <div class="status-indicator" id="connectionStatus">
+                            <i class="fas fa-circle"></i>
+                            <span>Disconnected</span>
+                        </div>
+                        <button class="btn btn-primary" id="connectBtn">Connect</button>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
 
-        <!-- Main Content -->
-        <main class="main">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="sidebar-section">
-                    <h3>Facebook Marketing API MCP Server</h3>
-                    <div class="search-container">
-                        <input type="text" id="toolSearch" class="search-input" placeholder="Search tools...">
-                        <i class="fas fa-search search-icon"></i>
+            <!-- Main Content -->
+            <main class="home-main">
+                <div class="home-content">
+                    <!-- Hero Section -->
+                    <div class="hero-section">
+                        <h2>The AI developer toolkit for integrations</h2>
+                        <div class="hero-tabs">
+                            <button class="tab-btn active" data-tab="users">Users</button>
+                            <button class="tab-btn" data-tab="developers">Developers</button>
+                        </div>
+                        <p class="hero-description">
+                            Add <strong>60+</strong> Facebook Marketing API tools to your AI assistant <strong>for free</strong>. 
+                            Connect your accounts securely and revoke access at any time.
+                        </p>
                     </div>
-                    <div class="tools-list" id="toolsList">
-                        <div class="loading">Loading tools...</div>
-                    </div>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3>Connection Type</h3>
-                    <div class="connection-options">
-                        <label class="radio-option">
-                            <input type="radio" name="connectionType" value="sse" checked>
-                            <span>Server-Sent Events (SSE)</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="connectionType" value="http">
-                            <span>HTTP Streaming</span>
-                        </label>
-                    </div>
-                </div>
 
-                <div class="sidebar-section">
-                    <h3>Server Info</h3>
-                    <div class="server-info" id="serverInfo">
-                        <p><strong>Name:</strong> <span id="serverName">-</span></p>
-                        <p><strong>Version:</strong> <span id="serverVersion">-</span></p>
-                        <p><strong>Tools:</strong> <span id="toolCount">0</span></p>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Content Area -->
-            <div class="content">
-                <!-- Tool Execution Panel -->
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>Tool Execution</h2>
-                        <div class="panel-actions">
-                            <button class="btn btn-secondary" id="clearBtn">
-                                <i class="fas fa-trash"></i> Clear
-                            </button>
+                    <!-- Search Bar -->
+                    <div class="home-search-container">
+                        <div class="home-search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="homeSearch" placeholder="Search apps..." />
                         </div>
                     </div>
-                    
-                    <div class="tool-form" id="toolForm">
-                        <div class="form-group">
-                            <label for="toolSelect">Select Tool:</label>
-                            <select id="toolSelect" class="form-control">
-                                <option value="">Choose a tool...</option>
-                            </select>
+
+                    <!-- Content Layout -->
+                    <div class="home-layout">
+                        <!-- Sidebar Categories -->
+                        <aside class="home-sidebar">
+                            <h3>Categories</h3>
+                            <div class="category-list">
+                                <div class="category-item active" data-category="all">
+                                    <span>All MCP Servers</span>
+                                </div>
+                                <div class="category-item" data-category="ai">
+                                    <span>Artificial Intelligence (AI)</span>
+                                </div>
+                                <div class="category-item" data-category="marketing">
+                                    <span>Marketing & Advertising</span>
+                                </div>
+                                <div class="category-item" data-category="social">
+                                    <span>Social Media</span>
+                                </div>
+                                <div class="category-item" data-category="analytics">
+                                    <span>Analytics & Data</span>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <!-- Apps Grid -->
+                        <div class="apps-container">
+                            <div class="apps-grid" id="appsGrid">
+                                <!-- Facebook Marketing API App -->
+                                <div class="app-card" data-app="facebook-marketing-api" data-category="marketing social ai">
+                                    <div class="app-icon">
+                                        <i class="fab fa-facebook-square"></i>
+                                    </div>
+                                    <div class="app-info">
+                                        <h4>Facebook Marketing API</h4>
+                                        <p>Comprehensive Facebook Marketing API integration with 60+ tools for campaigns, ads, insights, and more.</p>
+                                        <div class="app-tags">
+                                            <span class="tag">Marketing</span>
+                                            <span class="tag">Social Media</span>
+                                            <span class="tag">AI</span>
+                                        </div>
+                                    </div>
+                                    <div class="app-actions">
+                                        <button class="btn btn-primary app-select-btn">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Placeholder for other apps -->
+                                <div class="app-card placeholder" data-category="ai">
+                                    <div class="app-icon">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="app-info">
+                                        <h4>OpenAI (ChatGPT)</h4>
+                                        <p>OpenAI is an AI research and deployment company with the mission to ensure that artificial general intelligence benefits all of humanity.</p>
+                                        <div class="app-tags">
+                                            <span class="tag">AI</span>
+                                        </div>
+                                    </div>
+                                    <div class="app-actions">
+                                        <button class="btn btn-secondary" disabled>
+                                            Coming Soon
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="app-card placeholder" data-category="ai">
+                                    <div class="app-icon">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <div class="app-info">
+                                        <h4>Anthropic (Claude)</h4>
+                                        <p>AI research and products that put safety at the frontier. Introducing Claude, a next-generation AI assistant for your tasks.</p>
+                                        <div class="app-tags">
+                                            <span class="tag">AI</span>
+                                        </div>
+                                    </div>
+                                    <div class="app-actions">
+                                        <button class="btn btn-secondary" disabled>
+                                            Coming Soon
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="parameters-section" id="parametersSection" style="display: none;">
-                            <h4>Parameters</h4>
-                            <div id="parametersContainer"></div>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-execute" id="executeBtn" disabled>
-                            <i class="fas fa-play"></i> Execute Tool
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Tool Interface Screen (Hidden by default) -->
+        <div class="tool-interface" id="toolInterface" style="display: none;">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="logo">
+                        <button class="btn btn-ghost back-btn" id="backBtn">
+                            <i class="fas fa-arrow-left"></i>
                         </button>
+                        <i class="fab fa-facebook-square"></i>
+                        <h1>Facebook Marketing API MCP Server</h1>
+                    </div>
+                    <div class="connection-status">
+                        <div class="status-indicator" id="toolConnectionStatus">
+                            <i class="fas fa-circle"></i>
+                            <span>Disconnected</span>
+                        </div>
+                        <button class="btn btn-primary" id="toolConnectBtn">Connect</button>
                     </div>
                 </div>
+            </header>
 
-                <!-- Results Panel -->
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>Results</h2>
-                        <div class="panel-actions">
-                            <button class="btn btn-secondary" id="exportBtn">
-                                <i class="fas fa-download"></i> Export
-                            </button>
+            <!-- Main Content -->
+            <main class="main">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-section">
+                        <h3>Facebook Marketing API MCP Server</h3>
+                        <div class="search-container">
+                            <input type="text" id="toolSearch" class="search-input" placeholder="Search tools...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <div class="tools-list" id="toolsList">
+                            <div class="loading">Loading tools...</div>
                         </div>
                     </div>
                     
-                    <div class="results-container" id="resultsContainer">
-                        <div class="empty-state">
-                            <i class="fas fa-play-circle"></i>
-                            <p>Execute a tool to see results here</p>
+                    <div class="sidebar-section">
+                        <h3>Connection Type</h3>
+                        <div class="connection-options">
+                            <label class="radio-option">
+                                <input type="radio" name="connectionType" value="sse" checked>
+                                <span>Server-Sent Events (SSE)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="connectionType" value="http">
+                                <span>HTTP Streaming</span>
+                            </label>
                         </div>
                     </div>
-                </div>
 
-                <!-- Logs Panel -->
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>Activity Log</h2>
-                        <div class="panel-actions">
-                            <button class="btn btn-secondary" id="clearLogsBtn">
-                                <i class="fas fa-broom"></i> Clear Logs
+                    <div class="sidebar-section">
+                        <h3>Server Info</h3>
+                        <div class="server-info" id="serverInfo">
+                            <p><strong>Name:</strong> <span id="serverName">-</span></p>
+                            <p><strong>Version:</strong> <span id="serverVersion">-</span></p>
+                            <p><strong>Tools:</strong> <span id="toolCount">0</span></p>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Content Area -->
+                <div class="content">
+                    <!-- Tool Execution Panel -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2>Tool Execution</h2>
+                            <div class="panel-actions">
+                                <button class="btn btn-secondary" id="clearBtn">
+                                    <i class="fas fa-trash"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="tool-form" id="toolForm">
+                            <div class="form-group">
+                                <label for="toolSelect">Select Tool:</label>
+                                <select id="toolSelect" class="form-control">
+                                    <option value="">Choose a tool...</option>
+                                </select>
+                            </div>
+                            
+                            <div class="parameters-section" id="parametersSection" style="display: none;">
+                                <h4>Parameters</h4>
+                                <div id="parametersContainer"></div>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-execute" id="executeBtn" disabled>
+                                <i class="fas fa-play"></i> Execute Tool
                             </button>
                         </div>
                     </div>
-                    
-                    <div class="logs-container" id="logsContainer">
-                        <div class="log-entry">
-                            <span class="timestamp">[00:00:00]</span>
-                            <span class="log-level info">INFO</span>
-                            <span class="message">MCP Server interface initialized</span>
+
+                    <!-- Results Panel -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2>Results</h2>
+                            <div class="panel-actions">
+                                <button class="btn btn-secondary" id="exportBtn">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="results-container" id="resultsContainer">
+                            <div class="empty-state">
+                                <i class="fas fa-play-circle"></i>
+                                <p>Execute a tool to see results here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logs Panel -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2>Activity Log</h2>
+                            <div class="panel-actions">
+                                <button class="btn btn-secondary" id="clearLogsBtn">
+                                    <i class="fas fa-broom"></i> Clear Logs
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="logs-container" id="logsContainer">
+                            <div class="log-entry">
+                                <span class="timestamp">[00:00:00]</span>
+                                <span class="log-level info">INFO</span>
+                                <span class="message">MCP Server interface initialized</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
 
     <!-- Loading Overlay -->
