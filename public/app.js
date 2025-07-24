@@ -6,16 +6,26 @@ class MCPServerInterface {
         this.tools = [];
         this.selectedTool = null;
         this.sessionId = null;
+        this.currentScreen = 'home'; // 'home' or 'tool'
         
         this.initializeElements();
         this.attachEventListeners();
-        this.loadTools();
+        this.showHomeScreen();
     }
 
     initializeElements() {
+        // Home screen elements
+        this.homeScreen = document.getElementById('homeScreen');
+        this.toolInterface = document.getElementById('toolInterface');
+        this.homeSearch = document.getElementById('homeSearch');
+        this.appsGrid = document.getElementById('appsGrid');
+        this.backBtn = document.getElementById('backBtn');
+        
         // Connection elements
         this.connectionStatus = document.getElementById('connectionStatus');
         this.connectBtn = document.getElementById('connectBtn');
+        this.toolConnectionStatus = document.getElementById('toolConnectionStatus');
+        this.toolConnectBtn = document.getElementById('toolConnectBtn');
         
         // Tool elements
         this.toolsList = document.getElementById('toolsList');
@@ -39,8 +49,32 @@ class MCPServerInterface {
     }
 
     attachEventListeners() {
+        // Home screen listeners
+        this.homeSearch?.addEventListener('input', (e) => this.filterApps(e.target.value));
+        this.backBtn?.addEventListener('click', () => this.showHomeScreen());
+        
+        // Category filters
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', (e) => this.filterByCategory(e.target.dataset.category));
+        });
+        
+        // App selection
+        document.querySelectorAll('.app-select-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const appCard = e.target.closest('.app-card');
+                const appId = appCard.dataset.app;
+                this.selectApp(appId);
+            });
+        });
+        
+        // Hero tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
+        });
+        
         // Connection
         this.connectBtn.addEventListener('click', () => this.toggleConnection());
+        this.toolConnectBtn?.addEventListener('click', () => this.toggleConnection());
         
         // Connection type
         document.querySelectorAll('input[name="connectionType"]').forEach(radio => {
@@ -83,6 +117,86 @@ class MCPServerInterface {
                 }
             }
         });
+    }
+
+    showHomeScreen() {
+        this.currentScreen = 'home';
+        this.homeScreen.style.display = 'block';
+        this.toolInterface.style.display = 'none';
+        
+        // Reset connection state when going back to home
+        if (this.isConnected) {
+            this.disconnect();
+        }
+    }
+
+    showToolInterface() {
+        this.currentScreen = 'tool';
+        this.homeScreen.style.display = 'none';
+        this.toolInterface.style.display = 'block';
+        
+        // Load tools when entering tool interface
+        this.loadTools();
+    }
+
+    selectApp(appId) {
+        if (appId === 'facebook-marketing-api') {
+            this.showToolInterface();
+        } else {
+            this.showToast('This app is coming soon!', 'info');
+        }
+    }
+
+    filterApps(searchTerm) {
+        const appCards = document.querySelectorAll('.app-card');
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        
+        appCards.forEach(card => {
+            const title = card.querySelector('h4').textContent.toLowerCase();
+            const description = card.querySelector('p').textContent.toLowerCase();
+            
+            const matches = title.includes(lowerSearchTerm) || 
+                          description.includes(lowerSearchTerm);
+            
+            if (matches || searchTerm === '') {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    filterByCategory(category) {
+        // Update active category
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        document.querySelector(`[data-category="${category}"]`).classList.add('active');
+        
+        // Filter apps
+        const appCards = document.querySelectorAll('.app-card');
+        
+        appCards.forEach(card => {
+            if (category === 'all') {
+                card.style.display = 'block';
+            } else {
+                const categories = card.dataset.category || '';
+                if (categories.includes(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+        
+        // You can add different content for users vs developers here
     }
 
     async loadTools() {
@@ -328,11 +442,21 @@ class MCPServerInterface {
             'connecting': 'Connecting...'
         };
 
-        this.connectionStatus.className = `status-indicator ${status}`;
-        this.connectionStatus.querySelector('span').textContent = statusText[status];
+        // Update both connection status indicators
+        [this.connectionStatus, this.toolConnectionStatus].forEach(statusEl => {
+            if (statusEl) {
+                statusEl.className = `status-indicator ${status}`;
+                statusEl.querySelector('span').textContent = statusText[status];
+            }
+        });
         
-        this.connectBtn.textContent = status === 'connected' ? 'Disconnect' : 'Connect';
-        this.connectBtn.disabled = status === 'connecting';
+        // Update both connect buttons
+        [this.connectBtn, this.toolConnectBtn].forEach(btn => {
+            if (btn) {
+                btn.textContent = status === 'connected' ? 'Disconnect' : 'Connect';
+                btn.disabled = status === 'connecting';
+            }
+        });
     }
 
     async executeTool() {
