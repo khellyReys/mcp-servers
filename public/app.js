@@ -6,7 +6,7 @@ class MCPServerInterface {
         this.tools = [];
         this.selectedTool = null;
         this.sessionId = null;
-        this.currentScreen = 'home'; // 'home' or 'tool'
+        this.currentScreen = 'home';
         
         this.initializeElements();
         this.attachEventListeners();
@@ -42,6 +42,7 @@ class MCPServerInterface {
         this.serverName = document.getElementById('serverName');
         this.serverVersion = document.getElementById('serverVersion');
         this.toolCount = document.getElementById('toolCount');
+        this.serverToolCount = document.getElementById('serverToolCount');
         
         // Other elements
         this.loadingOverlay = document.getElementById('loadingOverlay');
@@ -73,7 +74,7 @@ class MCPServerInterface {
         });
         
         // Connection
-        this.connectBtn.addEventListener('click', () => this.toggleConnection());
+        this.connectBtn?.addEventListener('click', () => this.toggleConnection());
         this.toolConnectBtn?.addEventListener('click', () => this.toggleConnection());
         
         // Connection type
@@ -87,18 +88,18 @@ class MCPServerInterface {
         });
         
         // Tool selection
-        this.toolSelect.addEventListener('change', (e) => this.selectTool(e.target.value));
+        this.toolSelect?.addEventListener('change', (e) => this.selectTool(e.target.value));
         
         // Tool execution
-        this.executeBtn.addEventListener('click', () => this.executeTool());
+        this.executeBtn?.addEventListener('click', () => this.executeTool());
         
         // Clear buttons
-        document.getElementById('clearBtn').addEventListener('click', () => this.clearResults());
-        document.getElementById('clearLogsBtn').addEventListener('click', () => this.clearLogs());
-        document.getElementById('exportBtn').addEventListener('click', () => this.exportResults());
+        document.getElementById('clearBtn')?.addEventListener('click', () => this.clearResults());
+        document.getElementById('clearLogsBtn')?.addEventListener('click', () => this.clearLogs());
+        document.getElementById('exportBtn')?.addEventListener('click', () => this.exportResults());
         
         // Search functionality
-        document.getElementById('toolSearch').addEventListener('input', (e) => this.filterTools(e.target.value));
+        document.getElementById('toolSearch')?.addEventListener('input', (e) => this.filterTools(e.target.value));
         
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -195,8 +196,6 @@ class MCPServerInterface {
             btn.classList.remove('active');
         });
         document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-        
-        // You can add different content for users vs developers here
     }
 
     async loadTools() {
@@ -233,6 +232,11 @@ class MCPServerInterface {
         // Populate tool select dropdown
         this.toolSelect.innerHTML = '<option value="">Choose a tool...</option>' +
             this.tools.map(tool => `<option value="${tool.name}">${tool.name}</option>`).join('');
+        
+        // Update tool count
+        if (this.toolCount) {
+            this.toolCount.textContent = this.tools.length.toString();
+        }
     }
 
     filterTools(searchTerm) {
@@ -282,7 +286,7 @@ class MCPServerInterface {
         document.querySelectorAll('.tool-item').forEach(item => {
             item.classList.remove('selected');
         });
-        document.querySelector(`[data-tool="${toolName}"]`).classList.add('selected');
+        document.querySelector(`[data-tool="${toolName}"]`)?.classList.add('selected');
     }
 
     selectTool(toolName) {
@@ -338,9 +342,9 @@ class MCPServerInterface {
             case 'boolean':
                 return 'checkbox';
             case 'array':
-                return 'text'; // Will need special handling
+                return 'text';
             case 'object':
-                return 'text'; // Will need special handling
+                return 'text';
             default:
                 return 'text';
         }
@@ -379,7 +383,6 @@ class MCPServerInterface {
     }
 
     async connectSSE() {
-        // Initialize SSE connection
         const response = await fetch('/sse', {
             method: 'GET',
             headers: {
@@ -413,12 +416,10 @@ class MCPServerInterface {
             this.disconnect();
         };
 
-        // Get session ID from response headers or generate one
         this.sessionId = response.headers.get('X-Session-ID') || this.generateSessionId();
     }
 
     async connectHTTP() {
-        // For HTTP streaming, we'll use fetch with streaming
         this.sessionId = this.generateSessionId();
         this.addLog('HTTP streaming connection established', 'info');
     }
@@ -442,15 +443,22 @@ class MCPServerInterface {
             'connecting': 'Connecting...'
         };
 
-        // Update both connection status indicators
+        // Update status indicators
         [this.connectionStatus, this.toolConnectionStatus].forEach(statusEl => {
             if (statusEl) {
-                statusEl.className = `status-indicator ${status}`;
-                statusEl.querySelector('span').textContent = statusText[status];
+                const dot = statusEl.querySelector('.status-dot');
+                const span = statusEl.querySelector('span');
+                
+                if (dot) {
+                    dot.className = `status-dot ${status === 'connected' ? 'connected' : 'disconnected'}`;
+                }
+                if (span) {
+                    span.textContent = statusText[status];
+                }
             }
         });
         
-        // Update both connect buttons
+        // Update connect buttons
         [this.connectBtn, this.toolConnectBtn].forEach(btn => {
             if (btn) {
                 btn.textContent = status === 'connected' ? 'Disconnect' : 'Connect';
@@ -503,7 +511,7 @@ class MCPServerInterface {
             }
             
             if (input.required && (!value && value !== 0 && value !== false)) {
-                return null; // Required field is empty
+                return null;
             }
             
             if (value !== undefined && value !== '') {
@@ -564,7 +572,6 @@ class MCPServerInterface {
     }
 
     handleServerMessage(data) {
-        // Handle different types of server messages
         if (data.type === 'tool_result') {
             this.displayResult(data.tool, data.result, data.error);
         } else if (data.type === 'log') {
@@ -573,7 +580,6 @@ class MCPServerInterface {
     }
 
     displayResult(toolName, result, isError = false) {
-        // Remove empty state if present
         const emptyState = this.resultsContainer.querySelector('.empty-state');
         if (emptyState) {
             emptyState.remove();
@@ -592,8 +598,6 @@ class MCPServerInterface {
         `;
 
         this.resultsContainer.insertBefore(resultElement, this.resultsContainer.firstChild);
-        
-        // Scroll to top of results
         this.resultsContainer.scrollTop = 0;
     }
 
@@ -623,7 +627,8 @@ class MCPServerInterface {
         this.resultsContainer.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-play-circle"></i>
-                <p>Execute a tool to see results here</p>
+                <h3>Ready to Execute</h3>
+                <p>Select a tool and execute it to see results here</p>
             </div>
         `;
     }
@@ -660,9 +665,9 @@ class MCPServerInterface {
     }
 
     updateServerInfo() {
-        this.serverName.textContent = 'Facebook Marketing API MCP';
-        this.serverVersion.textContent = '1.0.0';
-        this.toolCount.textContent = this.tools.length.toString();
+        if (this.serverName) this.serverName.textContent = 'Facebook Marketing API MCP';
+        if (this.serverVersion) this.serverVersion.textContent = '1.0.0';
+        if (this.serverToolCount) this.serverToolCount.textContent = this.tools.length.toString();
     }
 
     showLoading(show) {

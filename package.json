@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "list-tools": "node index.js tools",
-    "start": "node server.js --web",
-    "dev": "node server.js --web",
-    "server:sse": "node server.js --sse",
-    "server:stdio": "node mcpServer.js"
+    "build": "tsc",
+    "start": "npm run build && node dist/server.js --web",
+    "dev": "npm run build && node dist/server.js --web",
+    "server:sse": "npm run build && node dist/server.js --sse",
+    "server:stdio": "npm run build && node dist/mcpServer.js",
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.9.0",
@@ -19,6 +21,14 @@
     "cors": "^2.8.5",
     "ws": "^8.18.0",
     "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/ws": "^8.5.10",
+    "@types/uuid": "^9.0.8",
+    "typescript": "^5.3.0"
   },
   "engines": {
     "node": ">=16.0.0"

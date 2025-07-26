@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Marketing API MCP Server</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -16,12 +16,14 @@
             <header class="home-header">
                 <div class="home-header-content">
                     <div class="logo">
-                        <i class="fab fa-facebook-square"></i>
-                        <h1>Facebook Marketing API MCP Server</h1>
+                        <div class="logo-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h1>MCP Server Hub</h1>
                     </div>
-                    <div class="connection-status">
-                        <div class="status-indicator" id="connectionStatus">
-                            <i class="fas fa-circle"></i>
+                    <div class="header-actions">
+                        <div class="connection-status" id="connectionStatus">
+                            <div class="status-dot disconnected"></div>
                             <span>Disconnected</span>
                         </div>
                         <button class="btn btn-primary" id="connectBtn">Connect</button>
@@ -36,8 +38,14 @@
                     <div class="hero-section">
                         <h2>The AI developer toolkit for integrations</h2>
                         <div class="hero-tabs">
-                            <button class="tab-btn active" data-tab="users">Users</button>
-                            <button class="tab-btn" data-tab="developers">Developers</button>
+                            <button class="tab-btn active" data-tab="users">
+                                <i class="fas fa-users"></i>
+                                Users
+                            </button>
+                            <button class="tab-btn" data-tab="developers">
+                                <i class="fas fa-code"></i>
+                                Developers
+                            </button>
                         </div>
                         <p class="hero-description">
                             Add <strong>60+</strong> Facebook Marketing API tools to your AI assistant <strong>for free</strong>. 
@@ -49,7 +57,7 @@
                     <div class="home-search-container">
                         <div class="home-search-bar">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="homeSearch" placeholder="Search apps..." />
+                            <input type="text" id="homeSearch" placeholder="Search your favorite apps..." />
                         </div>
                     </div>
 
@@ -60,80 +68,136 @@
                             <h3>Categories</h3>
                             <div class="category-list">
                                 <div class="category-item active" data-category="all">
+                                    <i class="fas fa-th-large"></i>
                                     <span>All MCP Servers</span>
+                                    <div class="category-count">3</div>
                                 </div>
                                 <div class="category-item" data-category="ai">
-                                    <span>Artificial Intelligence (AI)</span>
+                                    <i class="fas fa-brain"></i>
+                                    <span>Artificial Intelligence</span>
+                                    <div class="category-count">2</div>
                                 </div>
                                 <div class="category-item" data-category="marketing">
+                                    <i class="fas fa-bullhorn"></i>
                                     <span>Marketing & Advertising</span>
+                                    <div class="category-count">1</div>
                                 </div>
                                 <div class="category-item" data-category="social">
+                                    <i class="fas fa-share-alt"></i>
                                     <span>Social Media</span>
+                                    <div class="category-count">1</div>
                                 </div>
                                 <div class="category-item" data-category="analytics">
+                                    <i class="fas fa-chart-line"></i>
                                     <span>Analytics & Data</span>
+                                    <div class="category-count">1</div>
                                 </div>
                             </div>
                         </aside>
 
                         <!-- Apps Grid -->
                         <div class="apps-container">
+                            <div class="section-header">
+                                <h3>Popular</h3>
+                                <p>Most used tools and integrations</p>
+                            </div>
+                            
                             <div class="apps-grid" id="appsGrid">
                                 <!-- Facebook Marketing API App -->
-                                <div class="app-card" data-app="facebook-marketing-api" data-category="marketing social ai">
-                                    <div class="app-icon">
-                                        <i class="fab fa-facebook-square"></i>
+                                <div class="app-card featured" data-app="facebook-marketing-api" data-category="marketing social analytics">
+                                    <div class="app-header">
+                                        <div class="app-icon facebook">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </div>
+                                        <div class="app-status available">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
                                     </div>
-                                    <div class="app-info">
+                                    <div class="app-content">
                                         <h4>Facebook Marketing API</h4>
-                                        <p>Comprehensive Facebook Marketing API integration with 60+ tools for campaigns, ads, insights, and more.</p>
+                                        <p>Comprehensive Facebook Marketing API integration with 60+ tools for campaigns, ads, insights, and performance analytics.</p>
                                         <div class="app-tags">
-                                            <span class="tag">Marketing</span>
-                                            <span class="tag">Social Media</span>
-                                            <span class="tag">AI</span>
+                                            <span class="tag marketing">Marketing</span>
+                                            <span class="tag social">Social Media</span>
+                                            <span class="tag analytics">Analytics</span>
+                                        </div>
+                                        <div class="app-stats">
+                                            <div class="stat">
+                                                <i class="fas fa-tools"></i>
+                                                <span>60+ Tools</span>
+                                            </div>
+                                            <div class="stat">
+                                                <i class="fas fa-users"></i>
+                                                <span>Active</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="app-actions">
                                         <button class="btn btn-primary app-select-btn">
+                                            <span>Open Tools</span>
                                             <i class="fas fa-arrow-right"></i>
                                         </button>
                                     </div>
                                 </div>
 
-                                <!-- Placeholder for other apps -->
-                                <div class="app-card placeholder" data-category="ai">
-                                    <div class="app-icon">
-                                        <i class="fas fa-robot"></i>
+                                <!-- OpenAI Placeholder -->
+                                <div class="app-card" data-category="ai">
+                                    <div class="app-header">
+                                        <div class="app-icon openai">
+                                            <i class="fas fa-robot"></i>
+                                        </div>
+                                        <div class="app-status coming-soon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
                                     </div>
-                                    <div class="app-info">
+                                    <div class="app-content">
                                         <h4>OpenAI (ChatGPT)</h4>
                                         <p>OpenAI is an AI research and deployment company with the mission to ensure that artificial general intelligence benefits all of humanity.</p>
                                         <div class="app-tags">
-                                            <span class="tag">AI</span>
+                                            <span class="tag ai">AI</span>
+                                            <span class="tag nlp">NLP</span>
+                                        </div>
+                                        <div class="app-stats">
+                                            <div class="stat">
+                                                <i class="fas fa-tools"></i>
+                                                <span>Coming Soon</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="app-actions">
                                         <button class="btn btn-secondary" disabled>
-                                            Coming Soon
+                                            <span>Coming Soon</span>
                                         </button>
                                     </div>
                                 </div>
 
-                                <div class="app-card placeholder" data-category="ai">
-                                    <div class="app-icon">
-                                        <i class="fas fa-brain"></i>
+                                <!-- Anthropic Placeholder -->
+                                <div class="app-card" data-category="ai">
+                                    <div class="app-header">
+                                        <div class="app-icon anthropic">
+                                            <i class="fas fa-brain"></i>
+                                        </div>
+                                        <div class="app-status coming-soon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
                                     </div>
-                                    <div class="app-info">
+                                    <div class="app-content">
                                         <h4>Anthropic (Claude)</h4>
                                         <p>AI research and products that put safety at the frontier. Introducing Claude, a next-generation AI assistant for your tasks.</p>
                                         <div class="app-tags">
-                                            <span class="tag">AI</span>
+                                            <span class="tag ai">AI</span>
+                                            <span class="tag safety">Safety</span>
+                                        </div>
+                                        <div class="app-stats">
+                                            <div class="stat">
+                                                <i class="fas fa-tools"></i>
+                                                <span>Coming Soon</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="app-actions">
                                         <button class="btn btn-secondary" disabled>
-                                            Coming Soon
+                                            <span>Coming Soon</span>
                                         </button>
                                     </div>
                                 </div>
@@ -144,21 +208,29 @@
             </main>
         </div>
 
-        <!-- Tool Interface Screen (Hidden by default) -->
+        <!-- Tool Interface Screen -->
         <div class="tool-interface" id="toolInterface" style="display: none;">
             <!-- Header -->
-            <header class="header">
-                <div class="header-content">
-                    <div class="logo">
+            <header class="tool-header">
+                <div class="tool-header-content">
+                    <div class="header-left">
                         <button class="btn btn-ghost back-btn" id="backBtn">
                             <i class="fas fa-arrow-left"></i>
+                            <span>Back to Apps</span>
                         </button>
-                        <i class="fab fa-facebook-square"></i>
-                        <h1>Facebook Marketing API MCP Server</h1>
+                        <div class="app-info">
+                            <div class="app-icon facebook small">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="app-details">
+                                <h1>Facebook Marketing API</h1>
+                                <span class="app-subtitle">60+ Marketing Tools</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="connection-status">
-                        <div class="status-indicator" id="toolConnectionStatus">
-                            <i class="fas fa-circle"></i>
+                    <div class="header-right">
+                        <div class="connection-status" id="toolConnectionStatus">
+                            <div class="status-dot disconnected"></div>
                             <span>Disconnected</span>
                         </div>
                         <button class="btn btn-primary" id="toolConnectBtn">Connect</button>
@@ -167,17 +239,23 @@
             </header>
 
             <!-- Main Content -->
-            <main class="main">
+            <main class="tool-main">
                 <!-- Sidebar -->
-                <aside class="sidebar">
+                <aside class="tool-sidebar">
                     <div class="sidebar-section">
-                        <h3>Facebook Marketing API MCP Server</h3>
+                        <div class="section-header">
+                            <h3>Available Tools</h3>
+                            <div class="tool-count" id="toolCount">0</div>
+                        </div>
                         <div class="search-container">
                             <input type="text" id="toolSearch" class="search-input" placeholder="Search tools...">
                             <i class="fas fa-search search-icon"></i>
                         </div>
                         <div class="tools-list" id="toolsList">
-                            <div class="loading">Loading tools...</div>
+                            <div class="loading-state">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>Loading tools...</span>
+                            </div>
                         </div>
                     </div>
                     
@@ -186,11 +264,19 @@
                         <div class="connection-options">
                             <label class="radio-option">
                                 <input type="radio" name="connectionType" value="sse" checked>
-                                <span>Server-Sent Events (SSE)</span>
+                                <div class="radio-custom"></div>
+                                <div class="option-content">
+                                    <span class="option-title">Server-Sent Events</span>
+                                    <span class="option-desc">Real-time streaming</span>
+                                </div>
                             </label>
                             <label class="radio-option">
                                 <input type="radio" name="connectionType" value="http">
-                                <span>HTTP Streaming</span>
+                                <div class="radio-custom"></div>
+                                <div class="option-content">
+                                    <span class="option-title">HTTP Streaming</span>
+                                    <span class="option-desc">Standard HTTP requests</span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -198,60 +284,83 @@
                     <div class="sidebar-section">
                         <h3>Server Info</h3>
                         <div class="server-info" id="serverInfo">
-                            <p><strong>Name:</strong> <span id="serverName">-</span></p>
-                            <p><strong>Version:</strong> <span id="serverVersion">-</span></p>
-                            <p><strong>Tools:</strong> <span id="toolCount">0</span></p>
+                            <div class="info-item">
+                                <span class="info-label">Name:</span>
+                                <span class="info-value" id="serverName">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Version:</span>
+                                <span class="info-value" id="serverVersion">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Tools:</span>
+                                <span class="info-value" id="serverToolCount">0</span>
+                            </div>
                         </div>
                     </div>
                 </aside>
 
                 <!-- Content Area -->
-                <div class="content">
+                <div class="tool-content">
                     <!-- Tool Execution Panel -->
                     <div class="panel">
                         <div class="panel-header">
-                            <h2>Tool Execution</h2>
+                            <div class="panel-title">
+                                <i class="fas fa-play-circle"></i>
+                                <h2>Tool Execution</h2>
+                            </div>
                             <div class="panel-actions">
                                 <button class="btn btn-secondary" id="clearBtn">
-                                    <i class="fas fa-trash"></i> Clear
+                                    <i class="fas fa-trash"></i>
+                                    Clear
                                 </button>
                             </div>
                         </div>
                         
-                        <div class="tool-form" id="toolForm">
-                            <div class="form-group">
-                                <label for="toolSelect">Select Tool:</label>
-                                <select id="toolSelect" class="form-control">
-                                    <option value="">Choose a tool...</option>
-                                </select>
+                        <div class="panel-content">
+                            <div class="tool-form" id="toolForm">
+                                <div class="form-group">
+                                    <label for="toolSelect" class="form-label">Select Tool:</label>
+                                    <select id="toolSelect" class="form-control">
+                                        <option value="">Choose a tool...</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="parameters-section" id="parametersSection" style="display: none;">
+                                    <h4 class="section-title">Parameters</h4>
+                                    <div id="parametersContainer"></div>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-execute" id="executeBtn" disabled>
+                                    <i class="fas fa-play"></i>
+                                    <span>Execute Tool</span>
+                                </button>
                             </div>
-                            
-                            <div class="parameters-section" id="parametersSection" style="display: none;">
-                                <h4>Parameters</h4>
-                                <div id="parametersContainer"></div>
-                            </div>
-                            
-                            <button class="btn btn-primary btn-execute" id="executeBtn" disabled>
-                                <i class="fas fa-play"></i> Execute Tool
-                            </button>
                         </div>
                     </div>
 
                     <!-- Results Panel -->
                     <div class="panel">
                         <div class="panel-header">
-                            <h2>Results</h2>
+                            <div class="panel-title">
+                                <i class="fas fa-chart-bar"></i>
+                                <h2>Results</h2>
+                            </div>
                             <div class="panel-actions">
                                 <button class="btn btn-secondary" id="exportBtn">
-                                    <i class="fas fa-download"></i> Export
+                                    <i class="fas fa-download"></i>
+                                    Export
                                 </button>
                             </div>
                         </div>
                         
-                        <div class="results-container" id="resultsContainer">
-                            <div class="empty-state">
-                                <i class="fas fa-play-circle"></i>
-                                <p>Execute a tool to see results here</p>
+                        <div class="panel-content">
+                            <div class="results-container" id="resultsContainer">
+                                <div class="empty-state">
+                                    <i class="fas fa-play-circle"></i>
+                                    <h3>Ready to Execute</h3>
+                                    <p>Select a tool and execute it to see results here</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -259,19 +368,25 @@
                     <!-- Logs Panel -->
                     <div class="panel">
                         <div class="panel-header">
-                            <h2>Activity Log</h2>
+                            <div class="panel-title">
+                                <i class="fas fa-terminal"></i>
+                                <h2>Activity Log</h2>
+                            </div>
                             <div class="panel-actions">
                                 <button class="btn btn-secondary" id="clearLogsBtn">
-                                    <i class="fas fa-broom"></i> Clear Logs
+                                    <i class="fas fa-broom"></i>
+                                    Clear Logs
                                 </button>
                             </div>
                         </div>
                         
-                        <div class="logs-container" id="logsContainer">
-                            <div class="log-entry">
-                                <span class="timestamp">[00:00:00]</span>
-                                <span class="log-level info">INFO</span>
-                                <span class="message">MCP Server interface initialized</span>
+                        <div class="panel-content">
+                            <div class="logs-container" id="logsContainer">
+                                <div class="log-entry">
+                                    <span class="timestamp">[00:00:00]</span>
+                                    <span class="log-level info">INFO</span>
+                                    <span class="message">MCP Server interface initialized</span>
+                                </div>
                             </div>
                         </div>
                     </div>
