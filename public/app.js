@@ -6,26 +6,16 @@ class MCPServerInterface {
         this.tools = [];
         this.selectedTool = null;
         this.sessionId = null;
-        this.currentScreen = 'home';
         
         this.initializeElements();
         this.attachEventListeners();
-        this.showHomeScreen();
+        this.loadTools();
     }
 
     initializeElements() {
-        // Home screen elements
-        this.homeScreen = document.getElementById('homeScreen');
-        this.toolInterface = document.getElementById('toolInterface');
-        this.homeSearch = document.getElementById('homeSearch');
-        this.appsGrid = document.getElementById('appsGrid');
-        this.backBtn = document.getElementById('backBtn');
-        
         // Connection elements
         this.connectionStatus = document.getElementById('connectionStatus');
         this.connectBtn = document.getElementById('connectBtn');
-        this.toolConnectionStatus = document.getElementById('toolConnectionStatus');
-        this.toolConnectBtn = document.getElementById('toolConnectBtn');
         
         // Tool elements
         this.toolsList = document.getElementById('toolsList');
@@ -42,7 +32,6 @@ class MCPServerInterface {
         this.serverName = document.getElementById('serverName');
         this.serverVersion = document.getElementById('serverVersion');
         this.toolCount = document.getElementById('toolCount');
-        this.serverToolCount = document.getElementById('serverToolCount');
         
         // Other elements
         this.loadingOverlay = document.getElementById('loadingOverlay');
@@ -50,32 +39,8 @@ class MCPServerInterface {
     }
 
     attachEventListeners() {
-        // Home screen listeners
-        this.homeSearch?.addEventListener('input', (e) => this.filterApps(e.target.value));
-        this.backBtn?.addEventListener('click', () => this.showHomeScreen());
-        
-        // Category filters
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.addEventListener('click', (e) => this.filterByCategory(e.target.dataset.category));
-        });
-        
-        // App selection
-        document.querySelectorAll('.app-select-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const appCard = e.target.closest('.app-card');
-                const appId = appCard.dataset.app;
-                this.selectApp(appId);
-            });
-        });
-        
-        // Hero tabs
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
-        });
-        
         // Connection
-        this.connectBtn?.addEventListener('click', () => this.toggleConnection());
-        this.toolConnectBtn?.addEventListener('click', () => this.toggleConnection());
+        this.connectBtn.addEventListener('click', () => this.toggleConnection());
         
         // Connection type
         document.querySelectorAll('input[name="connectionType"]').forEach(radio => {
@@ -88,18 +53,15 @@ class MCPServerInterface {
         });
         
         // Tool selection
-        this.toolSelect?.addEventListener('change', (e) => this.selectTool(e.target.value));
+        this.toolSelect.addEventListener('change', (e) => this.selectTool(e.target.value));
         
         // Tool execution
-        this.executeBtn?.addEventListener('click', () => this.executeTool());
+        this.executeBtn.addEventListener('click', () => this.executeTool());
         
         // Clear buttons
-        document.getElementById('clearBtn')?.addEventListener('click', () => this.clearResults());
-        document.getElementById('clearLogsBtn')?.addEventListener('click', () => this.clearLogs());
-        document.getElementById('exportBtn')?.addEventListener('click', () => this.exportResults());
-        
-        // Search functionality
-        document.getElementById('toolSearch')?.addEventListener('input', (e) => this.filterTools(e.target.value));
+        document.getElementById('clearBtn').addEventListener('click', () => this.clearResults());
+        document.getElementById('clearLogsBtn').addEventListener('click', () => this.clearLogs());
+        document.getElementById('exportBtn').addEventListener('click', () => this.exportResults());
         
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
@@ -118,84 +80,6 @@ class MCPServerInterface {
                 }
             }
         });
-    }
-
-    showHomeScreen() {
-        this.currentScreen = 'home';
-        this.homeScreen.style.display = 'block';
-        this.toolInterface.style.display = 'none';
-        
-        // Reset connection state when going back to home
-        if (this.isConnected) {
-            this.disconnect();
-        }
-    }
-
-    showToolInterface() {
-        this.currentScreen = 'tool';
-        this.homeScreen.style.display = 'none';
-        this.toolInterface.style.display = 'block';
-        
-        // Load tools when entering tool interface
-        this.loadTools();
-    }
-
-    selectApp(appId) {
-        if (appId === 'facebook-marketing-api') {
-            this.showToolInterface();
-        } else {
-            this.showToast('This app is coming soon!', 'info');
-        }
-    }
-
-    filterApps(searchTerm) {
-        const appCards = document.querySelectorAll('.app-card');
-        const lowerSearchTerm = searchTerm.toLowerCase();
-        
-        appCards.forEach(card => {
-            const title = card.querySelector('h4').textContent.toLowerCase();
-            const description = card.querySelector('p').textContent.toLowerCase();
-            
-            const matches = title.includes(lowerSearchTerm) || 
-                          description.includes(lowerSearchTerm);
-            
-            if (matches || searchTerm === '') {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    filterByCategory(category) {
-        // Update active category
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        document.querySelector(`[data-category="${category}"]`).classList.add('active');
-        
-        // Filter apps
-        const appCards = document.querySelectorAll('.app-card');
-        
-        appCards.forEach(card => {
-            if (category === 'all') {
-                card.style.display = 'block';
-            } else {
-                const categories = card.dataset.category || '';
-                if (categories.includes(category)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            }
-        });
-    }
-
-    switchTab(tab) {
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
     }
 
     async loadTools() {
@@ -232,50 +116,6 @@ class MCPServerInterface {
         // Populate tool select dropdown
         this.toolSelect.innerHTML = '<option value="">Choose a tool...</option>' +
             this.tools.map(tool => `<option value="${tool.name}">${tool.name}</option>`).join('');
-        
-        // Update tool count
-        if (this.toolCount) {
-            this.toolCount.textContent = this.tools.length.toString();
-        }
-    }
-
-    filterTools(searchTerm) {
-        const toolItems = document.querySelectorAll('.tool-item');
-        const lowerSearchTerm = searchTerm.toLowerCase();
-        
-        toolItems.forEach(item => {
-            const toolName = item.querySelector('.tool-name').textContent.toLowerCase();
-            const toolDescription = item.querySelector('.tool-description').textContent.toLowerCase();
-            
-            const matches = toolName.includes(lowerSearchTerm) || 
-                          toolDescription.includes(lowerSearchTerm);
-            
-            if (matches || searchTerm === '') {
-                item.classList.remove('hidden');
-            } else {
-                item.classList.add('hidden');
-            }
-        });
-        
-        // Show "No results" message if no tools are visible
-        const visibleTools = document.querySelectorAll('.tool-item:not(.hidden)');
-        const existingNoResults = document.querySelector('.no-results-message');
-        
-        if (visibleTools.length === 0 && searchTerm !== '') {
-            if (!existingNoResults) {
-                const noResultsDiv = document.createElement('div');
-                noResultsDiv.className = 'no-results-message';
-                noResultsDiv.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-search"></i>
-                        <p>No tools found matching "${searchTerm}"</p>
-                    </div>
-                `;
-                this.toolsList.appendChild(noResultsDiv);
-            }
-        } else if (existingNoResults) {
-            existingNoResults.remove();
-        }
     }
 
     selectToolFromSidebar(toolName) {
@@ -286,7 +126,7 @@ class MCPServerInterface {
         document.querySelectorAll('.tool-item').forEach(item => {
             item.classList.remove('selected');
         });
-        document.querySelector(`[data-tool="${toolName}"]`)?.classList.add('selected');
+        document.querySelector(`[data-tool="${toolName}"]`).classList.add('selected');
     }
 
     selectTool(toolName) {
@@ -342,9 +182,9 @@ class MCPServerInterface {
             case 'boolean':
                 return 'checkbox';
             case 'array':
-                return 'text';
+                return 'text'; // Will need special handling
             case 'object':
-                return 'text';
+                return 'text'; // Will need special handling
             default:
                 return 'text';
         }
@@ -383,6 +223,7 @@ class MCPServerInterface {
     }
 
     async connectSSE() {
+        // Initialize SSE connection
         const response = await fetch('/sse', {
             method: 'GET',
             headers: {
@@ -416,10 +257,12 @@ class MCPServerInterface {
             this.disconnect();
         };
 
+        // Get session ID from response headers or generate one
         this.sessionId = response.headers.get('X-Session-ID') || this.generateSessionId();
     }
 
     async connectHTTP() {
+        // For HTTP streaming, we'll use fetch with streaming
         this.sessionId = this.generateSessionId();
         this.addLog('HTTP streaming connection established', 'info');
     }
@@ -443,28 +286,11 @@ class MCPServerInterface {
             'connecting': 'Connecting...'
         };
 
-        // Update status indicators
-        [this.connectionStatus, this.toolConnectionStatus].forEach(statusEl => {
-            if (statusEl) {
-                const dot = statusEl.querySelector('.status-dot');
-                const span = statusEl.querySelector('span');
-                
-                if (dot) {
-                    dot.className = `status-dot ${status === 'connected' ? 'connected' : 'disconnected'}`;
-                }
-                if (span) {
-                    span.textContent = statusText[status];
-                }
-            }
-        });
+        this.connectionStatus.className = `status-indicator ${status}`;
+        this.connectionStatus.querySelector('span').textContent = statusText[status];
         
-        // Update connect buttons
-        [this.connectBtn, this.toolConnectBtn].forEach(btn => {
-            if (btn) {
-                btn.textContent = status === 'connected' ? 'Disconnect' : 'Connect';
-                btn.disabled = status === 'connecting';
-            }
-        });
+        this.connectBtn.textContent = status === 'connected' ? 'Disconnect' : 'Connect';
+        this.connectBtn.disabled = status === 'connecting';
     }
 
     async executeTool() {
@@ -511,7 +337,7 @@ class MCPServerInterface {
             }
             
             if (input.required && (!value && value !== 0 && value !== false)) {
-                return null;
+                return null; // Required field is empty
             }
             
             if (value !== undefined && value !== '') {
@@ -572,6 +398,7 @@ class MCPServerInterface {
     }
 
     handleServerMessage(data) {
+        // Handle different types of server messages
         if (data.type === 'tool_result') {
             this.displayResult(data.tool, data.result, data.error);
         } else if (data.type === 'log') {
@@ -580,6 +407,7 @@ class MCPServerInterface {
     }
 
     displayResult(toolName, result, isError = false) {
+        // Remove empty state if present
         const emptyState = this.resultsContainer.querySelector('.empty-state');
         if (emptyState) {
             emptyState.remove();
@@ -598,6 +426,8 @@ class MCPServerInterface {
         `;
 
         this.resultsContainer.insertBefore(resultElement, this.resultsContainer.firstChild);
+        
+        // Scroll to top of results
         this.resultsContainer.scrollTop = 0;
     }
 
@@ -627,8 +457,7 @@ class MCPServerInterface {
         this.resultsContainer.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-play-circle"></i>
-                <h3>Ready to Execute</h3>
-                <p>Select a tool and execute it to see results here</p>
+                <p>Execute a tool to see results here</p>
             </div>
         `;
     }
@@ -665,9 +494,9 @@ class MCPServerInterface {
     }
 
     updateServerInfo() {
-        if (this.serverName) this.serverName.textContent = 'Facebook Marketing API MCP';
-        if (this.serverVersion) this.serverVersion.textContent = '1.0.0';
-        if (this.serverToolCount) this.serverToolCount.textContent = this.tools.length.toString();
+        this.serverName.textContent = 'Facebook Marketing API MCP';
+        this.serverVersion.textContent = '1.0.0';
+        this.toolCount.textContent = this.tools.length.toString();
     }
 
     showLoading(show) {
