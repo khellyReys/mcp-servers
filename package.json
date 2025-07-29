@@ -6,19 +6,23 @@
   "type": "module",
   "scripts": {
     "list-tools": "node index.js tools",
-    "start": "node server.js --web",
-    "dev": "node server.js --web",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "server:sse": "node server.js --sse",
-    "server:stdio": "node mcpServer.js"
+    "server:stdio": "node mcpServer.js",
+    "web": "node server.js --web"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.9.0",
     "commander": "^13.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
-    "cors": "^2.8.5",
-    "ws": "^8.18.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   },
   "engines": {
     "node": ">=16.0.0"

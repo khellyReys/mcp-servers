@@ -1,11 +1,14 @@
 # Postman MCP Generator
 
-Welcome to your generated MCP server! 🚀 This project was created with the [Postman MCP Generator](https://postman.com/explore/mcp-generator), configured to [Model Context Provider (MCP)](https://modelcontextprotocol.io/introduction) Server output mode. It provides you with:
+Welcome to your enhanced MCP server! 🚀 This project was created with the [Postman MCP Generator](https://postman.com/explore/mcp-generator) and enhanced with a modern web interface. It provides you with:
 
 - ✅ An MCP-compatible server (`mcpServer.js`)
 - ✅ Automatically generated JavaScript tools for each selected Postman API request
-- ✅ Web-based frontend interface with SSE and HTTP streaming support
+- ✅ **NEW**: Modern web-based frontend interface with real-time capabilities
+- ✅ **NEW**: Server-Sent Events (SSE) and HTTP streaming support
 - ✅ Multiple connection modes: STDIO, SSE, and HTTP
+- ✅ **NEW**: Interactive tool execution with live results
+- ✅ **NEW**: Session management and activity logging
 
 Let's set things up!
 
@@ -50,14 +53,16 @@ const apiKey = process.env.ACME_API_KEY;
 
 ## 🌐 Web Interface
 
-The server now includes a modern web-based interface that provides:
+The server includes a comprehensive web-based interface that provides:
 
-- **Interactive Tool Execution**: Select and execute tools with a user-friendly interface
+- **Interactive Tool Execution**: Select and execute Facebook Marketing API tools with a professional interface
 - **Real-time Connection Status**: Monitor your connection to the MCP server
 - **Multiple Connection Types**: Choose between SSE (Server-Sent Events) and HTTP streaming
 - **Live Results Display**: View tool execution results in real-time
 - **Activity Logging**: Track all server activities and tool executions
 - **Export Functionality**: Export results for further analysis
+- **Session Management**: Handle multiple concurrent connections
+- **Professional UI**: Clean, responsive design with Facebook branding
 
 ### Starting the Web Interface
 
@@ -69,7 +74,16 @@ npm start
 npm run dev
 ```
 
-Then open your browser to `http://localhost:3001` to access the interface.
+Then open your browser to `http://localhost:3001` to access the modern web interface.
+
+### Web Interface Features
+
+- **Tool Browser**: Browse all available Facebook Marketing API tools
+- **Parameter Forms**: Dynamic forms for tool parameters with validation
+- **Real-time Execution**: Execute tools and see results instantly
+- **Connection Management**: Switch between SSE and HTTP modes
+- **Export Results**: Download execution results as JSON
+- **Activity Logs**: Monitor all server activities and errors
 
 ### Available Server Modes
 
@@ -83,6 +97,37 @@ npm run server:sse
 # Traditional STDIO mode (for Claude Desktop)
 npm run server:stdio
 ```
+
+## 🔧 API Endpoints
+
+The enhanced server exposes several REST endpoints:
+
+- `GET /` - Web interface
+- `GET /api/tools` - List all available tools
+- `POST /api/call-tool` - Execute a tool via HTTP
+- `GET /sse` - Server-Sent Events endpoint for real-time communication
+- `POST /messages` - SSE message handler
+- `GET /health` - Health check endpoint
+
+## 🎯 Facebook Marketing API Tools
+
+This server includes **58 pre-configured tools** for the Facebook Marketing API, organized into categories:
+
+### Available Tool Categories:
+- **Campaign Management**: Create, update, and retrieve campaign details
+- **Ad Set Operations**: Manage ad sets with targeting and budgets
+- **Creative Management**: Handle ad creatives and assets
+- **Insights & Analytics**: Get performance data and reports
+- **Account Management**: Manage ad accounts and permissions
+- **Targeting**: Access targeting categories and audience data
+
+### Example Tools:
+- `get_campaign_insights` - Retrieve campaign performance data
+- `create_campaign` - Create new advertising campaigns
+- `get_ad_account_details` - Get detailed account information
+- `update_ad_set` - Modify ad set configurations
+- `get_targeting_categories` - Access available targeting options
+
 ## 🌐 Test the MCP Server with Postman
 
 The MCP Server (`mcpServer.js`) exposes your automated API tools to MCP-compatible clients, such as Claude Desktop or the Postman Desktop Application. We recommend that you test the server with Postman first and then move on to using it with an LLM.

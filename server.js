@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
-const SERVER_NAME = "facebook-marketing-api-mcp-server";
+const SERVER_NAME = "Facebook Marketing API MCP Server";
 const PORT = process.env.PORT || 3001;
 
 async function transformTools(tools) {
@@ -237,19 +237,20 @@ async function createWebServer() {
 async function run() {
   const args = process.argv.slice(2);
   const isSSE = args.includes("--sse");
-  const isWeb = args.includes("--web");
+  const isWeb = args.includes("--web") || (!isSSE && !process.stdin.isTTY);
   const tools = await discoverTools();
 
-  if (isWeb || (!isSSE && !process.stdin.isTTY)) {
+  if (isWeb) {
     // Web server mode
     console.log(`[Web Server] Starting ${SERVER_NAME}...`);
     const app = await createWebServer();
     
     app.listen(PORT, () => {
       console.log(`[Web Server] Running on http://localhost:${PORT}`);
-      console.log(`[Web Server] Available tools: ${tools.length}`);
+      console.log(`[Web Server] Facebook Marketing API tools: ${tools.length}`);
       console.log(`[Web Server] SSE endpoint: http://localhost:${PORT}/sse`);
       console.log(`[Web Server] API endpoint: http://localhost:${PORT}/api`);
+      console.log(`[Web Server] Open http://localhost:${PORT} to access the web interface`);
     });
   } else if (isSSE) {
     // SSE mode (legacy)
